@@ -1,7 +1,7 @@
 CC=g++
 CFLAGS=-c -Wall --std=c++20
 LDFLAGS=
-SOURCES=test.cpp scheduler.cpp`
+SOURCES=test.cpp scheduler.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=scheduler
 
@@ -14,4 +14,4 @@ $(EXECUTABLE): $(OBJECTS)
 	$(CC) $(CFLAGS) $< -o $@
 
 clean:
-	rm -rf *.o hello
+	rm -rf *.o hello *.txt *.out *.dSYM

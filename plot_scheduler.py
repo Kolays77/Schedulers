@@ -46,7 +46,8 @@ def parse_segments(filename, max_ticks=999):
         return segments, idle_ts
 
 if __name__ == "__main__":
-    assert len(sys.argv) > 1
+    assert len(sys.argv) > 2
     max_ticks=20
+    max_ticks = int(sys.argv[2])
     segments, idle_ts = parse_segments(sys.argv[1], max_ticks)
     draw(segments, idle_ts, max_ticks)

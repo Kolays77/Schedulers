@@ -35,8 +35,15 @@ struct Scheduler {
     Scheduler(std::vector<Task>&& tasks);
 };
 
-// TODO посчитать процент загруженности CPU (utilization)
-// TODO добавить FIFO
-
 void EDF(Scheduler&& scheduler, std::ofstream&& outputFile);
 void RoundRobin(Scheduler&& scheduler, std::ofstream&& outputFile);
+void FIFO(Scheduler&& scheduler, std::ofstream&& outputFile);
+
+
+// TODO посчитать процент загруженности CPU (utilization)
+// TODO добавить FIFO
+// TODO добавить время простоя
+
+// TODO статистика по каждой задачи
+// 1) Сколько полностью выполнилось
+// 2) Сколько в среднем тратиться времени на выполнение
