@@ -9,4 +9,5 @@ struct SchedulerStat {
     
     std::vector<int> completedTasks;
     double cpuUtilization;
+    int hyperperiod;
 };

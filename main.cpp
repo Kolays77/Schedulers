@@ -1,6 +1,7 @@
 #include "src/scheduler.h"
+#include "src/generate.h"
 
-int main() {
+void simpleTest() {
     {
         Task t1 { 
             .id=1, 
@@ -34,5 +35,11 @@ int main() {
         stat1.Print();
         stat2.Print();
     }
+}
+
+int main() {
+    const auto tasks = generateRandomTasks(10, 10, 5, 20);
+    EDF(Scheduler(tasks), std::ofstream{"out/output_1_edf.txt"}).Print(); // TODO make ifexist out/
+    RoundRobin(Scheduler(tasks), std::ofstream{"out/output_1_rr.txt"}).Print();
     return 0;
 }

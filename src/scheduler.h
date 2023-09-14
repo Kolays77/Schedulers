@@ -16,16 +16,15 @@ int lcm(const std::vector<Task>& tasks);
 struct Scheduler {
     std::vector<Task> tasks;
     int hyperperiod;
-    std::priority_queue<Task> priorityQueue;
     Scheduler(){};
     Scheduler(const std::vector<Task>& tasks);
-    Scheduler(std::vector<Task>&& tasks);
+    // Scheduler(std::vector<Task>&& tasks);
 };
 
 
-SchedulerStat EDF(Scheduler&& scheduler, std::ofstream&& outputFile);
-SchedulerStat RoundRobin(Scheduler&& scheduler, std::ofstream&& outputFile);
-SchedulerStat FIFO(Scheduler&& scheduler, std::ofstream&& outputFile);
+SchedulerStat EDF(const Scheduler& scheduler, std::ofstream&& outputFile);
+SchedulerStat RoundRobin(const Scheduler& scheduler, std::ofstream&& outputFile);
+SchedulerStat FIFO(const Scheduler& scheduler, std::ofstream&& outputFile);
 
 
 // TODO посчитать процент загруженности CPU (utilization)

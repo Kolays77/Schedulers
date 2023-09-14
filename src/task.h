@@ -9,6 +9,7 @@ struct Task {
     int priority = 0;
     int addedTime = 0;
     void Execute() const;
+    friend bool operator < (const Task & lhs, const Task & rhs);
 };
 
 bool operator < (const Task & lhs, const Task & rhs);

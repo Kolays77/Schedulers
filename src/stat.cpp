@@ -7,6 +7,7 @@ SchedulerStat::SchedulerStat(int numOfTasks) :
 
 void SchedulerStat::Print() const {
     const size_t numOfTasks = completedTasks.size();
+    std::cout << "hyperperiod " << hyperperiod << "\n";
     if (numOfTasks == 1) { 
         return;
     }
