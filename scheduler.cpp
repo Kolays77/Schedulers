@@ -1,12 +1,8 @@
 #include "scheduler.h"
 
-bool Task::operator < (const Task & other) const {
-    return addedTime + deadline > other.addedTime + other.deadline;
-}
-
-void Task::Execute() const {
-    execution--;
-}
+#include <vector>
+#include "stat.h"
+#include "task.h"
 
 int gcd(int a, int b) {
     if (b == 0) {
@@ -25,17 +21,20 @@ int lcm(const std::vector < Task > & tasks) {
 
 Scheduler::Scheduler(const std::vector < Task > & tasks) : 
     tasks(tasks),
-    hyperperiod(lcm(tasks)),
-    completedTasks(std::vector < int > (tasks.size(), 0)) {};
+    hyperperiod(lcm(tasks)) {};
 
 Scheduler::Scheduler(std::vector <Task>&& tasks) : 
     tasks(tasks),
-    hyperperiod(lcm(tasks)),
-    completedTasks(std::vector<int>(tasks.size(), 0)) {};
+    hyperperiod(lcm(tasks)) {};
+
+
 
     //Earliest Deadline first algorithm
-void EDF(Scheduler && scheduler, std::ofstream && outputFile) {
+SchedulerStat EDF(Scheduler && scheduler, std::ofstream && outputFile) {
     std::vector < int > idleTime;
+    const size_t numOfTasks = scheduler.tasks.size();
+    SchedulerStat statResult(numOfTasks);
+    
     for (int tick = 0; tick < scheduler.hyperperiod; tick += QUANTUM) {
         
         for (const Task & task: scheduler.tasks) {
@@ -49,6 +48,7 @@ void EDF(Scheduler && scheduler, std::ofstream && outputFile) {
         if (scheduler.priorityQueue.empty()) {
             idleTime.push_back(tick);
             outputFile << tick << "  IDLE" << "\n";
+            statResult.completedTasks[numOfTasks] += 1;
             continue;
         }
         const Task & activeTask = scheduler.priorityQueue.top();
@@ -57,14 +57,19 @@ void EDF(Scheduler && scheduler, std::ofstream && outputFile) {
         outputFile << tick << "  Task   " << activeTask.id << "\n";
         if (activeTask.execution == 0) {
             scheduler.priorityQueue.pop();
+            statResult.completedTasks[activeTask.id-1] += 1;
         }
     }
+    return statResult;
 }
 
+
 //TODO refactor
-void RoundRobin(Scheduler && scheduler, std::ofstream && outputFile) {
+SchedulerStat RoundRobin(Scheduler && scheduler, std::ofstream && outputFile) {
     std::vector < int > idleTime;
     std::queue < Task > queue;
+    const size_t numOfTasks = scheduler.tasks.size();
+    SchedulerStat statResult(numOfTasks); 
 
     for (int tick = 0; tick < scheduler.hyperperiod; tick += QUANTUM) {
 
@@ -79,6 +84,7 @@ void RoundRobin(Scheduler && scheduler, std::ofstream && outputFile) {
         if (queue.empty()) {
             idleTime.push_back(tick);
             outputFile << tick << "  IDLE" << "\n";
+            statResult.completedTasks[numOfTasks] += 1;
             continue;
         }
 
@@ -87,7 +93,10 @@ void RoundRobin(Scheduler && scheduler, std::ofstream && outputFile) {
         outputFile << tick << "  Task   " << activeTask.id << "\n";
         if (activeTask.execution != 0) {
             queue.push(activeTask);
+            statResult.completedTasks[activeTask.id-1] += 1;
         }
         queue.pop();
     }
+
+    return statResult;
 }

@@ -5,45 +5,33 @@
 #include <random>
 #include <vector>
 
+#include "task.h"
+#include "stat.h"
+
 const int QUANTUM = 1;  // 1ms
-
-struct Task {
-    int id = 0;
-    int arrival = 0;
-    int period = 0;
-    int deadline = 0;
-    mutable int execution = 0;
-    int priority = 0;
-    int addedTime = 0;
-
-    inline bool operator<(const Task& other) const;
-    inline void Execute() const;
-};
 
 int gcd(int a, int b);
 int lcm(const std::vector<Task>& tasks);
-
 
 struct Scheduler {
     std::vector<Task> tasks;
     int hyperperiod;
     std::priority_queue<Task> priorityQueue;
-    std::vector<int> completedTasks;
-
     Scheduler(){};
     Scheduler(const std::vector<Task>& tasks);
     Scheduler(std::vector<Task>&& tasks);
 };
 
-void EDF(Scheduler&& scheduler, std::ofstream&& outputFile);
-void RoundRobin(Scheduler&& scheduler, std::ofstream&& outputFile);
-void FIFO(Scheduler&& scheduler, std::ofstream&& outputFile);
+
+SchedulerStat EDF(Scheduler&& scheduler, std::ofstream&& outputFile);
+SchedulerStat RoundRobin(Scheduler&& scheduler, std::ofstream&& outputFile);
+SchedulerStat FIFO(Scheduler&& scheduler, std::ofstream&& outputFile);
 
 
 // TODO посчитать процент загруженности CPU (utilization)
 // TODO добавить FIFO
 // TODO добавить время простоя
-
+// TODO добавить время появление на графике
 // TODO статистика по каждой задачи
-// 1) Сколько полностью выполнилось
+
 // 2) Сколько в среднем тратиться времени на выполнение

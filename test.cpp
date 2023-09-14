@@ -28,8 +28,11 @@ int main() {
             .execution=4,
             .priority=1,
         };
-        EDF(Scheduler{{t1,t2,t3}}, std::ofstream{"out/output_1_edf.txt"}); // TODO make ifexist out/
-        RoundRobin(Scheduler{{t1,t2,t3}}, std::ofstream{"out/output_1_rr.txt"});
+        auto stat1 = EDF(Scheduler{{t1,t2,t3}}, std::ofstream{"out/output_1_edf.txt"}); // TODO make ifexist out/
+        auto stat2 = RoundRobin(Scheduler{{t1,t2,t3}}, std::ofstream{"out/output_1_rr.txt"});
+
+        stat1.Print();
+        stat2.Print();
     }
     return 0;
 }

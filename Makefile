@@ -1,7 +1,7 @@
 CC=g++
 CFLAGS=-c -Wall --std=c++20
 LDFLAGS=
-SOURCES=test.cpp scheduler.cpp
+SOURCES=test.cpp task.cpp stat.cpp scheduler.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=scheduler
 
