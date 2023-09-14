@@ -33,3 +33,6 @@
 
 
 compile_flags.txt
+build/
+.cache
+.txt
