@@ -6,10 +6,8 @@ struct Task {
   int period = 0;
   int deadline = 0;
   mutable int execution = 0;
+  int const_execution = 0;
   int priority = 0;
   int addedTime = 0;
-  void Execute() const;
-  friend bool operator<(const Task &lhs, const Task &rhs);
+  void Execute() const { execution--; }
 };
-
-bool operator<(const Task &lhs, const Task &rhs);
